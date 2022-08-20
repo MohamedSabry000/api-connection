@@ -20,7 +20,7 @@ export type ApiDataType = {
 
 const Home: React.FC = () => {
 
-  const [error, setError] = React.useState<string>('');
+  const [error, setError] = React.useState<any>('');
   const [out, setOut] = React.useState<string>('');
   const goConnect = (api: ApiDataType) => {
     const res = postData({...api});
@@ -62,7 +62,7 @@ async function postData({ url, method, mode, cache, credentials, headers, redire
       {
         error ?
           <div className="alert alert-danger" role="alert">
-            {error}
+            {typeof error === 'string' ? error : error.name + ' ' + error.message + ', Please open the debugger console for more details.'}
           </div>
         :
           out && <Output out={JSON.stringify(out)} /> && <JsonToHTMLTable json={JSON.stringify(out)} />
