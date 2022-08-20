@@ -15,6 +15,7 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
     redirect: "follow",
     referrerPolicy: "no-referrer",
     body  : "",
+    params: "",
   });
 
   const [showAdvanced, setShowAdvanced] = React.useState(false);
@@ -31,8 +32,21 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
     }
   }
 
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>, type: string) => {
+  //   const { name, value } = event.target;
+  //   try {
+  //     const parsed = JSON.parse(value);
+  //     setError("");
+  //     goConnect(api);
+  //     setApi({ ...api, [type]: parsed });
+  //   } catch (e) {
+  //     setError("Invalid JSON in " + type);
+  //   }
+
+  // }
+
   return (
-    <Form>
+    <Form style={{borderBottom: "2px dashed #CCC", marginBottom: "5px"}}>
       <Row>
         <Col>
           <Form.Group className="mb-3" controlId="url">
@@ -74,6 +88,25 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
               }
             />
           </Form.Group>
+        </Col>
+        {
+          api.method.toUpperCase() !== "GET" && (
+          <Col>
+            <Form.Group className="mb-3" controlId="params">
+              <Form.Label>Params:</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Your Params"
+                value={api.params}
+                onChange={e => setApi({ ...api, params: e.target.value })}
+              />
+            </Form.Group>
+          </Col>
+          )
+        }
+      </Row>
+      <Row>
+        <Col>
           <Form.Group className="mb-3" controlId="body">
             <Form.Label>Body:</Form.Label>
             <Form.Control
@@ -85,17 +118,6 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
           </Form.Group>
         </Col>
       </Row>
-      {!showAdvanced &&
-      <Form.Group className="mb-3 text-center" controlId="advanced">
-        <Button
-          variant="primary"
-          type="button"
-          onClick={() => setShowAdvanced((prev) => !prev)}
-        >
-          Advanced
-        </Button>
-      </Form.Group>
-      }
       {showAdvanced && (
         <>
           <Row>
@@ -195,9 +217,24 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
           </Row>
         </>
       )}
+      <Row>
+        <Col>
       <Button className={"text-center"} variant="primary" type="button" onClick={handleSubmit}>
         Submit
       </Button>
+        </Col>
+          <Col>
+      <Form.Group className="mb-3 text-center" controlId="advanced">
+        <Button
+          variant="primary"
+          type="button"
+          onClick={() => setShowAdvanced((prev) => !prev)}
+        >
+          {`${showAdvanced? "Hide" : "Show" } Advanced`}
+        </Button>
+      </Form.Group>
+        </Col>
+      </Row>
     </Form>
   );
 };

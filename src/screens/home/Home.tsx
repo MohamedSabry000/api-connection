@@ -16,6 +16,7 @@ export type ApiDataType = {
   redirect: RequestRedirect,
   referrerPolicy: ReferrerPolicy,
   body?: string,
+  params?: string
 }
 
 const Home: React.FC = () => {
@@ -24,7 +25,7 @@ const Home: React.FC = () => {
   const [out, setOut] = React.useState<string>('');
   const goConnect = (api: ApiDataType) => {
     const res = postData({...api});
-    res.then(data => {
+    res && res.then(data => {
       console.log(data);
       setOut(data);
     }).catch(err => {
@@ -36,7 +37,7 @@ const Home: React.FC = () => {
   }
 
   // Example POST method implementation:
-async function postData({ url, method, mode, cache, credentials, headers, redirect, referrerPolicy, body }: ApiDataType) {
+async function postData({ url, method, mode, cache, credentials, headers, redirect, referrerPolicy, body, params }: ApiDataType) {
   // Default options are marked with *
   let options = {
     method, // *GET, POST, PUT, DELETE, etc.
@@ -46,12 +47,31 @@ async function postData({ url, method, mode, cache, credentials, headers, redire
     headers: JSON.parse(headers),
     redirect, // manual, *follow, error
     referrerPolicy, // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body // body data type must match "Content-Type" header
+    body, // body data type must match "Content-Type" header
   }
 
-  method.toUpperCase() === 'GET' ? delete options.body : options.body = body;
-  const response = await fetch(url, options);
-  return response.json(); // parses JSON response into native JavaScript objects
+  try {
+    let paramsString = params ? JSON.parse(params) : '';
+    let headersString = headers ? JSON.parse(headers) : '';
+
+    let query = Object.keys(paramsString)
+             .map((k: string) => encodeURIComponent(k) + '=' + encodeURIComponent(paramsString[k] as string))
+             .join('&');
+
+    let newUrl = url + '?' + query;
+    // console.log(newUrl);
+    method.toUpperCase() === 'GET' ? delete options.body : options.body = body;
+    const response = await fetch(newUrl, options);
+    return response.json(); // parses JSON response into native JavaScript objects
+
+  } catch (e) {
+    setError(e);
+    return null
+  }
+
+
+
+
 }
 
 
