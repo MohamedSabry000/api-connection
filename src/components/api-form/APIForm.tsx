@@ -89,8 +89,7 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
             />
           </Form.Group>
         </Col>
-        {
-          api.method.toUpperCase() !== "GET" && (
+
           <Col>
             <Form.Group className="mb-3" controlId="params">
               <Form.Label>Params:</Form.Label>
@@ -102,10 +101,11 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
               />
             </Form.Group>
           </Col>
-          )
-        }
+
       </Row>
       <Row>
+      {
+          api.method.toUpperCase() !== "GET" && (
         <Col>
           <Form.Group className="mb-3" controlId="body">
             <Form.Label>Body:</Form.Label>
@@ -117,6 +117,8 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
             />
           </Form.Group>
         </Col>
+        )
+      }
       </Row>
       {showAdvanced && (
         <>

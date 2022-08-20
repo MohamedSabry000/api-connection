@@ -58,6 +58,7 @@ async function postData({ url, method, mode, cache, credentials, headers, redire
              .map((k: string) => encodeURIComponent(k) + '=' + encodeURIComponent(paramsString[k] as string))
              .join('&');
 
+
     let newUrl = url + '?' + query;
     // console.log(newUrl);
     method.toUpperCase() === 'GET' ? delete options.body : options.body = body;
