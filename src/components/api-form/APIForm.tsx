@@ -79,26 +79,14 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
         <Col>
           <Form.Group className="mb-3" controlId="headers">
             <Form.Label>Headers:</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Your Headers"
-              value={api.headers}
-              onChange={(e) =>
-                setApi({ ...api, headers: e.target.value })
-              }
-            />
+            <Form.Control as="textarea" rows={3} value={api.headers} onChange={(e) => setApi({ ...api, headers: e.target.value })} placeholder="Enter Your Headers" />
           </Form.Group>
         </Col>
 
           <Col>
             <Form.Group className="mb-3" controlId="params">
               <Form.Label>Params:</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Your Params"
-                value={api.params}
-                onChange={e => setApi({ ...api, params: e.target.value })}
-              />
+              <Form.Control as="textarea" rows={3} value={api.params} onChange={(e) => setApi({ ...api, params: e.target.value })} placeholder="Enter Your Params" />
             </Form.Group>
           </Col>
 
@@ -109,12 +97,7 @@ const APIForm = ({goConnect, setError}: {goConnect: (api: ApiDataType) => void, 
         <Col>
           <Form.Group className="mb-3" controlId="body">
             <Form.Label>Body:</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter Your Body"
-              value={api.body}
-              onChange={(e) => setApi({ ...api, body: e.target.value })}
-            />
+            <Form.Control as="textarea" rows={3} value={api.body} onChange={(e) => setApi({ ...api, body: e.target.value })} placeholder="Enter Your Body" />
           </Form.Group>
         </Col>
         )
